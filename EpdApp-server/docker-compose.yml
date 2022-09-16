@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  app:
+    image: 'epd-app-server:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db_epd
+      - SPRING_DATASOURCE_USERNAME=epd-user
+      - SPRING_DATASOURCE_PASSWORD=0000
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+    ports:
+      - "8080:8080"
+          
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=epd-user
+      - POSTGRES_PASSWORD=0000
+      - POSTGRES_DB=db_epd
