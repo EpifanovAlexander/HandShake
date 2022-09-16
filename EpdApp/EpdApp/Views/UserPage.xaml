@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EpdApp.Views.UserPage"
+             Appearing="ContentPage_Appearing">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="exit.png" Clicked="LogOutHandler" ></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <AbsoluteLayout VerticalOptions="FillAndExpand" BackgroundColor="White">
+
+            <!-- Отображение страницы пользователя для водителя -->
+            <StackLayout IsVisible="{Binding IsDriver}" Padding="10" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Entry x:Name="EpdEntry" Placeholder="Введите ID ЭПД" ClearButtonVisibility="WhileEditing"/>
+                <Button Text="Скачать ЭПД с сервера" Clicked="GetEpdFromServer"/>
+                <Label Text="Подготовленные документы" FontSize="Large" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,20,0,10"/>
+                <StackLayout VerticalOptions="CenterAndExpand" Margin="0,0,0,10">
+                    <Label Text="Документов ещё нет" FontSize="Large" HorizontalOptions="Center" TextColor="LightGray" IsVisible="{Binding IsNonExistDocuments}"/>
+                    <ListView HorizontalOptions="Fill" VerticalOptions="Fill" HasUnevenRows="True" ItemSelected="XmlDocSelected"
+                  ItemsSource="{Binding XmlDocuments}" IsVisible="{Binding IsExistDocuments}" BackgroundColor="White" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell Height="64">
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="64" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="xml.png" VerticalOptions="Center" HorizontalOptions="Center" 
+                                    WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
+                                        <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Large"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Область с выбором способа отправки документа и маской на фоне -->
+            <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" 
+                         x:Name="ShareEpd" IsVisible="false" Padding="10" BackgroundColor="Transparent">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="MaskTapped" NumberOfTapsRequired="1"/>
+                </StackLayout.GestureRecognizers>
+                <StackLayout  VerticalOptions="EndAndExpand" BackgroundColor="AliceBlue" Padding="10" >
+                    <Label x:Name="ShareEpdLabel" Text="Предъявить ЭПД" FontSize="Body"/>
+                    <Grid ColumnSpacing="8" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.25*" />
+                            <ColumnDefinition Width="0.25*" />
+                            <ColumnDefinition Width="0.25*" />
+                            <ColumnDefinition Width="0.25*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout x:Name="WifiType" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShareTypeClicked" NumberOfTapsRequired="1"/>
+                            </StackLayout.GestureRecognizers>
+                            <Image Source="wifi.png" WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
+                            <Label Text="WI-FI" FontSize="Caption" VerticalOptions="End" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                        <StackLayout x:Name="BluetoothType" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShareTypeClicked" NumberOfTapsRequired="1"/>
+                            </StackLayout.GestureRecognizers>
+                            <Image Source="bluetooth.png" WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
+                            <Label Text="Bluetooth" FontSize="Caption" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                        <StackLayout x:Name="NfcType" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShareTypeClicked" NumberOfTapsRequired="1"/>
+                            </StackLayout.GestureRecognizers>
+                            <Image Source="nfc.png" WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
+                            <Label Text="NFC" FontSize="Caption" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                        <StackLayout x:Name="AutoType" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShareTypeClicked" NumberOfTapsRequired="1"/>
+                            </StackLayout.GestureRecognizers>
+                            <Image Source="share.png" WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
+                            <Label Text="По умолчанию" FontSize="Caption" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+
+
+
+            <!-- Отображение страницы пользователя для инспектора -->
+            <StackLayout IsVisible="{Binding IsPolice}" VerticalOptions="FillAndExpand" Padding="10" x:Name="StackPolice"
+                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Button x:Name="GetEpdButton" Text="Получить ЭПД" Clicked="LoadEpdAction"/>
+                <StackLayout VerticalOptions="FillAndExpand">
+
+                    <Image x:Name="LoadingLabel" Source="loading.gif" IsAnimationPlaying="True" IsVisible="False" VerticalOptions="CenterAndExpand"/>
+                    <StackLayout x:Name="EpdContent" VerticalOptions="FillAndExpand" HorizontalOptions="Center" IsVisible="False" Margin="0,20,0,0">
+                        <Grid ColumnSpacing="20" RowSpacing="10" VerticalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.4*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Text="Номер накладной"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="1" Text="Дата накладной"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="2" Text="Отправитель"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="3" Text="Получатель"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="4" Text="Груз"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="5" Text="Водители"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="6" Text="Транспортное средство"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding CurrentEpd.Number}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding CurrentEpd.Date}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding CurrentEpd.Shipper}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding CurrentEpd.Сonsignee}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding CurrentEpd.Goods}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="5" Text="{Binding CurrentEpd.Drivers}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="6" Text="{Binding CurrentEpd.Transport}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                        </Grid>
+
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" IsVisible="True" Margin="0,0,0,15">
+                            <Image Source="valid.png" WidthRequest="64" HeightRequest="64"/>
+                            <Label Text="Документ проверен" FontSize="Subtitle" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" IsVisible="False" Margin="0,0,0,15">
+                            <Image Source="invalid.png" WidthRequest="64" HeightRequest="64" />
+                            <Label Text="Документ не действителен" FontSize="Subtitle" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
