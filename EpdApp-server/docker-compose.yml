@@ -23,3 +23,5 @@ services:
       - POSTGRES_USER=epd-user
       - POSTGRES_PASSWORD=0000
       - POSTGRES_DB=db_epd
+    ports:
+      - "52125:5432"  
