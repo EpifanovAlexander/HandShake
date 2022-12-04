@@ -2,6 +2,8 @@
 using EpdApp.Services.XmlsService;
 using System.Collections.ObjectModel;
 using System.Linq;
+using EpdApp.Services.DocumentsService;
+using Xamarin.Forms;
 
 namespace EpdApp.ViewModels
 {
@@ -83,5 +85,18 @@ namespace EpdApp.ViewModels
                 OnPropertyChanged("CurrentEpd");
             }
         }
+
+        private Document _document;
+
+        public Document CurrentDocument
+        {
+            get => _document;
+            set
+            {
+                _document = value;
+                OnPropertyChanged("CurrentDocument");
+            }
+        }
+        
     }
 }

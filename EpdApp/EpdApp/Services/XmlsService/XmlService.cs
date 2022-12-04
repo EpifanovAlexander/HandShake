@@ -192,11 +192,11 @@ namespace EpdApp.Services.XmlsService
         public List<XmlDoc> GetDocuments() 
         { 
             List<XmlDoc> result = new List<XmlDoc>();
-            foreach (var file in Directory.GetFiles(GetXmlDirectory()))
+           /* foreach (var file in Directory.GetFiles(GetXmlDirectory()))
             { 
                 var fileInfo = new FileInfo(file);
                 result.Add(new XmlDoc(fileInfo.Name.Substring(0, fileInfo.Name.Length - 4), fileInfo.FullName));
-            }
+            }*/
             return result;
         }
     }

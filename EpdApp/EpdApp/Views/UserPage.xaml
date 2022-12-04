@@ -41,9 +41,9 @@
 
             <!-- Область с выбором способа отправки документа и маской на фоне -->
             <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" 
-                         x:Name="ShareEpd" IsVisible="false" Padding="10" BackgroundColor="Transparent">
+                         x:Name="ShareEpd" IsVisible="true" Padding="10" BackgroundColor="Transparent">
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="MaskTapped" NumberOfTapsRequired="1"/>
+                 <!--   <TapGestureRecognizer Tapped="MaskTapped" NumberOfTapsRequired="1"/>-->
                 </StackLayout.GestureRecognizers>
                 <StackLayout  VerticalOptions="EndAndExpand" BackgroundColor="AliceBlue" Padding="10" >
                     <Label x:Name="ShareEpdLabel" Text="Предъявить ЭПД" FontSize="Body"/>
@@ -111,21 +111,21 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Column="0" Grid.Row="0" Text="Номер накладной"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
-                            <Label Grid.Column="0" Grid.Row="1" Text="Дата накладной"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
-                            <Label Grid.Column="0" Grid.Row="2" Text="Отправитель"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
-                            <Label Grid.Column="0" Grid.Row="3" Text="Получатель"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
-                            <Label Grid.Column="0" Grid.Row="4" Text="Груз"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
-                            <Label Grid.Column="0" Grid.Row="5" Text="Водители"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
-                            <Label Grid.Column="0" Grid.Row="6" Text="Транспортное средство"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Серия"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="1" Text="Номер"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="2" Text="Имя"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="3" Text="Отчество"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="4" Text="Фамилия"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="5" Text="Пол"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
+                            <Label Grid.Column="0" Grid.Row="6" Text="Дата рождения"  VerticalOptions="Center" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="15"/>
 
-                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding CurrentEpd.Number}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding CurrentEpd.Date}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
-                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding CurrentEpd.Shipper}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
-                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding CurrentEpd.Сonsignee}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
-                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding CurrentEpd.Goods}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
-                            <Label Grid.Column="1" Grid.Row="5" Text="{Binding CurrentEpd.Drivers}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
-                            <Label Grid.Column="1" Grid.Row="6" Text="{Binding CurrentEpd.Transport}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding CurrentDocument.Snum}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding CurrentDocument.Number}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding CurrentDocument.Name}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding CurrentDocument.Middlename}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding CurrentDocument.Surname}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="5" Text="{Binding CurrentDocument.Sex}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
+                            <Label Grid.Column="1" Grid.Row="6" Text="{Binding CurrentDocument.stringBirthday}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
                         </Grid>
 
                         <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" IsVisible="True" Margin="0,0,0,15">

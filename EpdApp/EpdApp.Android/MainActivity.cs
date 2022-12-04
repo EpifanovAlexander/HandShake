@@ -23,6 +23,7 @@ namespace EpdApp.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
             Instance = this;
             LoadApplication(new App());
         }

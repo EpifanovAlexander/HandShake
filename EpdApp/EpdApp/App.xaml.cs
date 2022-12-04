@@ -1,6 +1,8 @@
-﻿using EpdApp.Services.UsersService;
+﻿using Android.Runtime;
+using EpdApp.Services.UsersService;
 using EpdApp.Services.XmlsService;
 using EpdApp.Views;
+using System;
 using Xamarin.Forms;
 
 namespace EpdApp
@@ -11,6 +13,7 @@ namespace EpdApp
         {
             InitializeComponent();
             XmlService.Instance.ConfigureXmlFolders();
+            
 
             // Определяем начальную страницу в зависимости от сохранённой в параметрах роли пользователя
             if (UserService.IsUserExist())
@@ -22,8 +25,10 @@ namespace EpdApp
             {
                 MainPage = new NavigationPage(new LoginPage());
             }
+
         }
 
+    
         protected override void OnStart()
         {
         }

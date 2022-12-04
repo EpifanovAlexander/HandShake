@@ -51,6 +51,10 @@
             Transport = transport;
         }
 
+        public Epd()
+        {
+
+        }
         public Epd(string epdString)
         {
             var props = epdString.Split('|');
@@ -61,6 +65,13 @@
             Goods = props[4];
             Drivers = props[5];
             Transport = props[6];
+        }
+
+        public static Epd EpdPassport(string name)
+        {
+            var result = new Epd();
+            result.Number = name;
+            return result;
         }
 
         public override string ToString()
