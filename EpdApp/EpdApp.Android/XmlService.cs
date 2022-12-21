@@ -27,16 +27,16 @@ namespace EpdApp.Droid
             if (MainActivity.Instance.CheckSelfPermission(Manifest.Permission.WriteExternalStorage) != Android.Content.PM.Permission.Granted)
                 MainActivity.Instance.RequestPermissions(new string[] { Manifest.Permission.WriteExternalStorage }, 0);
 
-            string path = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).AbsolutePath;
-            handShakeDirectory = Path.Combine(path, "HandShake");
-            xmlsDirectory = Path.Combine(handShakeDirectory, "XML documents");
+            //string path = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).AbsolutePath;
+            //handShakeDirectory = Path.Combine(path, "HandShake");
+           // xmlsDirectory = Path.Combine(handShakeDirectory, "XML documents");
 
-            string[] directories = { handShakeDirectory, xmlsDirectory };
-            foreach (var dir in directories)
-            {
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-            }
+            //string[] directories = { handShakeDirectory, xmlsDirectory };
+         //   foreach (var dir in directories)
+          //  {
+            //    if (!Directory.Exists(dir))
+             //       Directory.CreateDirectory(dir);
+           // }
         }
 
         /// <summary>

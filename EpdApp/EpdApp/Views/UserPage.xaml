@@ -13,13 +13,13 @@
 
             <!-- Отображение страницы пользователя для водителя -->
             <StackLayout IsVisible="{Binding IsDriver}" Padding="10" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Entry x:Name="EpdEntry" Placeholder="Введите ID ЭПД" ClearButtonVisibility="WhileEditing"/>
-                <Button Text="Скачать ЭПД с сервера" Clicked="GetEpdFromServer"/>
-                <Label Text="Подготовленные документы" FontSize="Large" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,20,0,10"/>
+               <!-- <Entry x:Name="EpdEntry" Placeholder="Введите ID ЭПД" ClearButtonVisibility="WhileEditing"/> -->
+                <Button Text="Download" Clicked="GetEpdFromServer"/>
+                <Label Text="Your documents" FontSize="Large" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,20,0,10"/>
                 <StackLayout VerticalOptions="CenterAndExpand" Margin="0,0,0,10">
-                    <Label Text="Документов ещё нет" FontSize="Large" HorizontalOptions="Center" TextColor="LightGray" IsVisible="{Binding IsNonExistDocuments}"/>
+                    <Label Text="No documents yet" FontSize="Large" HorizontalOptions="Center" TextColor="LightGray" IsVisible="{Binding IsNonExistDocuments}"/>
                     <ListView HorizontalOptions="Fill" VerticalOptions="Fill" HasUnevenRows="True" ItemSelected="XmlDocSelected"
-                  ItemsSource="{Binding XmlDocuments}" IsVisible="{Binding IsExistDocuments}" BackgroundColor="White" >
+                  ItemsSource="{Binding Documents}" IsVisible="{Binding IsExistDocuments}" BackgroundColor="White" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell Height="64">
@@ -28,9 +28,9 @@
                                             <ColumnDefinition Width="64" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="xml.png" VerticalOptions="Center" HorizontalOptions="Center" 
+                                        <Image Grid.Column="0" Source="doc.png" VerticalOptions="Center" HorizontalOptions="Center" 
                                     WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
-                                        <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Large"/>
+                                        <Label Grid.Column="1" Text="Passport" VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Large"/>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
@@ -41,12 +41,12 @@
 
             <!-- Область с выбором способа отправки документа и маской на фоне -->
             <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" 
-                         x:Name="ShareEpd" IsVisible="true" Padding="10" BackgroundColor="Transparent">
+                         x:Name="ShareEpd" IsVisible="false" Padding="10" BackgroundColor="Transparent">
                 <StackLayout.GestureRecognizers>
-                 <!--   <TapGestureRecognizer Tapped="MaskTapped" NumberOfTapsRequired="1"/>-->
+                    <TapGestureRecognizer Tapped="MaskTapped" NumberOfTapsRequired="1"/>
                 </StackLayout.GestureRecognizers>
                 <StackLayout  VerticalOptions="EndAndExpand" BackgroundColor="AliceBlue" Padding="10" >
-                    <Label x:Name="ShareEpdLabel" Text="Предъявить ЭПД" FontSize="Body"/>
+                    <Label x:Name="ShareEpdLabel" Text="Send the document" FontSize="Body"/>
                     <Grid ColumnSpacing="8" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.25*" />
@@ -80,7 +80,7 @@
                                 <TapGestureRecognizer Tapped="ShareTypeClicked" NumberOfTapsRequired="1"/>
                             </StackLayout.GestureRecognizers>
                             <Image Source="share.png" WidthRequest="64" HeightRequest="64" Margin="3,1,3,1"/>
-                            <Label Text="По умолчанию" FontSize="Caption" HorizontalTextAlignment="Center"/>
+                            <Label Text="Default" FontSize="Caption" HorizontalTextAlignment="Center"/>
                         </StackLayout>
                     </Grid>
                 </StackLayout>
@@ -91,7 +91,7 @@
             <!-- Отображение страницы пользователя для инспектора -->
             <StackLayout IsVisible="{Binding IsPolice}" VerticalOptions="FillAndExpand" Padding="10" x:Name="StackPolice"
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Button x:Name="GetEpdButton" Text="Получить ЭПД" Clicked="LoadEpdAction"/>
+                <Button x:Name="GetEpdButton" Text="Receive a document" Clicked="LoadEpdAction"/>
                 <StackLayout VerticalOptions="FillAndExpand">
 
                     <Image x:Name="LoadingLabel" Source="loading.gif" IsAnimationPlaying="True" IsVisible="False" VerticalOptions="CenterAndExpand"/>
@@ -128,14 +128,14 @@
                             <Label Grid.Column="1" Grid.Row="6" Text="{Binding CurrentDocument.stringBirthday}"  VerticalOptions="Center" HorizontalOptions="Fill" FontSize="Caption"/>
                         </Grid>
 
-                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" IsVisible="True" Margin="0,0,0,15">
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" IsVisible="{Binding IsVerified}" Margin="0,0,0,15">
                             <Image Source="valid.png" WidthRequest="64" HeightRequest="64"/>
-                            <Label Text="Документ проверен" FontSize="Subtitle" HorizontalTextAlignment="Center"/>
+                            <Label Text="Document checked" FontSize="Subtitle" HorizontalTextAlignment="Center"/>
                         </StackLayout>
 
                         <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" IsVisible="False" Margin="0,0,0,15">
                             <Image Source="invalid.png" WidthRequest="64" HeightRequest="64" />
-                            <Label Text="Документ не действителен" FontSize="Subtitle" HorizontalTextAlignment="Center"/>
+                            <Label Text="The document is not valid" FontSize="Subtitle" HorizontalTextAlignment="Center"/>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

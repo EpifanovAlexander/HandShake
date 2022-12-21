@@ -46,7 +46,7 @@ namespace EpdApp.Views
         {
             InitializeComponent();
             BindingContext = userModel = new UserViewModel(role);
-            Title = (role == UserRoles.Police) ? "ГИБДД" : "Водитель";
+            Title = (role == UserRoles.Police) ? "Inspector" : "User";
         }
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace EpdApp.Views
         {
             if (userModel.IsDriver)
             {
-                foreach (var file in XmlService.Instance.GetDocuments())
+                userModel.Documents.Clear();
+                foreach (var file in DocumentsService.GetDocuments())
                 {
-                    if (!userModel.XmlDocuments.Any(xmlDoc => xmlDoc.FullName == file.FullName))
-                        userModel.XmlDocuments.Add(file);
+                    userModel.Documents.Add(file);
                 }
                 userModel.UpdateXmlDocumentsIsExist();
             }
@@ -81,7 +81,7 @@ namespace EpdApp.Views
         /// </summary>
         private void ContentPage_Appearing(object sender, EventArgs e)
         {
-            UpdateXmlDocuments();
+            //UpdateXmlDocuments();
         }
 
         /// <summary>
@@ -100,8 +100,8 @@ namespace EpdApp.Views
         {
             var isSubMenuShowed = ShareEpd.IsVisible;
             ShareEpd.IsVisible = !isSubMenuShowed;
-            ShareEpdLabel.Text = $"Предъявить {(e.SelectedItem as XmlDoc).Name}";
-            SelectedDoc = e.SelectedItem as XmlDoc;
+            //ShareEpdLabel.Text = $"Предъявить {(e.SelectedItem as XmlDoc).Name}";
+           // SelectedDoc = e.SelectedItem as XmlDoc;
         }
 
         /// <summary>
@@ -191,6 +191,8 @@ namespace EpdApp.Views
         /// </summary>
         private async void GetEpdFromServer(object sender, EventArgs e)
         {
+            UpdateXmlDocuments();
+            /*
             try
             {
                 HttpClient client = new HttpClient();
@@ -209,7 +211,7 @@ namespace EpdApp.Views
             catch (Exception) 
             {
                 await DisplayAlert("Ошибка", "Связь с сервером оборвалась...", "ОK");
-            }
+            }*/
         }
         #endregion
 
@@ -234,6 +236,7 @@ namespace EpdApp.Views
 
                     Console.WriteLine($"Received broadcast from {groupEP} :");
                     userModel.CurrentDocument = new Passport(Encoding.UTF8.GetString(bytes, 0, bytes.Length));
+                    userModel.IsVerified = true;
                 }
             }
             catch (SocketException e)
@@ -276,6 +279,7 @@ namespace EpdApp.Views
         public void OnAccountRecieved(string account)
         {
             userModel.CurrentDocument = new Passport(account);
+            userModel.IsVerified = true;
         }
 
         #endregion

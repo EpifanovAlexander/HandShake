@@ -35,17 +35,19 @@ namespace EpdApp.ViewModels
         /// <summary>
         /// Список Xml-документов, сохарнённых на устройстве водителя
         /// </summary>
-        public ObservableCollection<XmlDoc> XmlDocuments { get; set; } = new ObservableCollection<XmlDoc>();
+        public ObservableCollection<string> Documents { get; set; } = new ObservableCollection<string>();
 
         /// <summary>
         /// Флаг того, существуют ли сохранённые документы на устройстве водителя
         /// </summary>
-        public bool IsExistDocuments { get => XmlDocuments.Any(); }
+        public bool IsExistDocuments { get => Documents.Any(); }
 
         /// <summary>
         /// Флаг того, отсутствуют ли сохранённые документы на устройстве водителя
         /// </summary>
         public bool IsNonExistDocuments { get => !IsExistDocuments; }
+
+        public bool IsVerified = false;
 
 
         public UserViewModel(User user)
